@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import ItemList from '@/components/ItemList.vue'
 
 const items = ref<Object[]>([])
 
@@ -13,5 +14,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <main></main>
+  <main>
+    <h1>Home</h1>
+    <ItemList :items="items" />
+  </main>
 </template>
