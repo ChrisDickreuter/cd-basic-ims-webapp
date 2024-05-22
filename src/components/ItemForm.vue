@@ -1,25 +1,35 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useForm } from "vee-validate"
+import * as yup from "yup";
 
 const emit = defineEmits(['add-item'])
 
-const title = ref('')
-const description = ref('')
+const { errors, handleSubmit, defineField } = useForm({
+    validationSchema: yup.object({
+        title: yup.string().required(),
+        description: yup.string().required()
+    })
+})
 
-const onSubmit = () => {
-    const item = { title: title.value, description: description.value }
-    emit('add-item', item)
-    title.value = ''
-    description.value = ''
-}
+const onSubmit =  handleSubmit(values => {
+        emit('add-item', values)
+        title.value = ''
+        description.value = ''
+    })
+
+
+const [title, titleAttrs] = defineField('title')
+const [description, descriptionAttrs] = defineField('description')
 </script>
 
 <template>
     <form @submit.prevent="onSubmit">
         <label for="title">Title</label>
-        <input type="text" v-model="title" name="title" required>
+        <input type="text" v-model="title" v-bind="titleAttrs" id="title">
+        <div>{{ errors.title }}</div>
         <label for="description">Description</label>
-        <textarea v-model="description" name="description" required></textarea>
+        <textarea v-model="description" v-bind="descriptionAttrs" id="description"></textarea>
+        <div>{{ errors.description }}</div>
         <button type="submit">Add</button>
     </form>
 </template>
