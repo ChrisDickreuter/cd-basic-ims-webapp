@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import ItemDetail from "./ItemDetail.vue";
+
 defineProps({
-  items: Array
+  items: { type: Array, required: true }
 })
 </script>
 
 <template>
   <ul>
     <li v-for="item in items" :key="item.id">
-      <h2>{{ item.title }}</h2>
-      <p>{{ item.description }}</p>
+      <ItemDetail :title="item.title" :description="item.description" />
     </li>
   </ul>
 </template>
